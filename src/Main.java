@@ -12,8 +12,19 @@ public class Main {
         for (int i = 0; i < products.length; i++) {
             System.out.println((i + 1) + ". " + products[i] + " " + prices[i] + " руб/шт");
         }
+        String[] discount = new String[products.length]; //указываем конкретные продукты по акции
+        discount[0] = products[0];
+        discount[2] = products[2];
+        System.out.println("!!!АКЦИЯ!!! 3шт по цене 2-х!");
+        for (String s : discount) {
+            if (s == null) {
+                continue;
+            }
+            System.out.println("--- " + s + " ---");
+        }
         int sumProduct = 0;
         int[] sumOneProduct = new int[products.length];
+        int[] countOneProduct = new int[products.length];//добавил массив количество товара в корзине
         while (true) {
             int productNumber = 0;
             int productCount = 0;
@@ -53,12 +64,22 @@ public class Main {
                 continue;
             }
             sumOneProduct[productNumber - 1] += productCount * currentPrice;
+            countOneProduct[productNumber - 1] += productCount; //добавил сюда подсчет кол-ва товара
+        }
+        for (int i = 0; i < countOneProduct.length; i++) {//этот блок проверяет на дисконт
+            if (countOneProduct[i] % 3 == 0 && discount[i] != null &&
+                    countOneProduct[i] != 0 && countOneProduct[i] <= 3) {
+                sumOneProduct[i] -= prices[i];
+            } else if (countOneProduct[i] > 3 && discount[i] != null && countOneProduct[i] != 0) {
+                sumOneProduct[i] = sumOneProduct[i] - prices[i] * (countOneProduct[i] / 3);
+            }
         }
         System.out.println("Ваша корзина:");
         for (int i = 0; i < sumOneProduct.length; i++) {
             if (sumOneProduct[i] != 0) {
-                System.out.println(products[i] + " " + sumOneProduct[i] / prices[i] +
-                        " шт " + prices[i] + " руб/шт " + sumOneProduct[i] + " руб в сумме");
+                System.out.println(products[i] + " " + countOneProduct[i] +
+                        " шт " + prices[i] + " руб/шт " + sumOneProduct[i] +
+                        " руб в сумме");// здесь заменил на количество, т.к. до дисконта считал сумма/цена за шт
                 sumProduct += sumOneProduct[i];
             }
         }
