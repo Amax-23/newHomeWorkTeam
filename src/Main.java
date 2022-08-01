@@ -52,12 +52,17 @@ public class Main {
                 System.out.println("Такого товара нет!");
                 continue;
             }
-            if (productCount < MIN_COUNT_PRODUCT || productCount >= MAX_COUNT_PRODUCT) {
+            int currentPrice = prices[productNumber - 1];
+            sumOneProduct[productNumber - 1] += productCount * currentPrice;
+            if (productCount == 0) {   // добавил для обнуления товара в корзине
+                sumOneProduct[productNumber - 1] = 0;
+                continue;
+            }
+            if (sumOneProduct[productNumber - 1] < 0 || productCount > MAX_COUNT_PRODUCT) { //изменил if для ввода количества в минус
+                sumOneProduct[productNumber - 1] -= productCount * currentPrice;
                 System.out.println("Вы выбрали недопустимое количество продукта!");
                 continue;
             }
-            int currentPrice = prices[productNumber - 1];
-            sumOneProduct[productNumber - 1] += productCount * currentPrice;
             countOneProduct[productNumber - 1] += productCount; //добавил сюда подсчет кол-ва товара
         }
         for (int i = 0; i < countOneProduct.length; i++) {//этот блок проверяет на дисконт
