@@ -63,7 +63,6 @@ public class Main {
                 System.out.println("Вы выбрали недопустимое количество продукта!");
                 continue;
             }
-            sumOneProduct[productNumber - 1] += productCount * currentPrice;
             countOneProduct[productNumber - 1] += productCount; //добавил сюда подсчет кол-ва товара
         }
         for (int i = 0; i < countOneProduct.length; i++) {//этот блок проверяет на дисконт
